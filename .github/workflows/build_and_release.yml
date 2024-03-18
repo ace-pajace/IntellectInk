@@ -3,10 +3,7 @@ name: Build and Release
 on:
   push:
     branches:
-      - 'main'
-  pull_request:
-    branches:
-      - 'main'
+      - main
 
 permissions:
   contents: read
@@ -19,7 +16,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    # Building Python package
+    # Budowanie paczki Pythona
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
       with:
@@ -30,14 +27,14 @@ jobs:
         pip install setuptools wheel
     - name: Build Python package
       run: python setup.py sdist bdist_wheel
-    - name: Create Python Release
+    - name: Create Release
       id: create_python_release
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ github.ref }}
-        release_name: Python Release ${{ github.ref }}
+        tag_name: v${{ github.run_number }}
+        release_name: Release v${{ github.run_number }}
         draft: false
         prerelease: false
     - name: Upload Python Release Asset
@@ -48,16 +45,5 @@ jobs:
       with:
         upload_url: ${{ steps.create_python_release.outputs.upload_url }}
         asset_path: ./dist/*
-        asset_name: my-package-${{ github.ref }}.tar.gz
+        asset_name: my-package-v${{ github.run_number }}.tar.gz
         asset_content_type: application/gzip
-
-    # Building React Native package
-    - name: Install Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '16'
-    - name: Install npm dependencies
-      run: npm install
-    - name: Build React Native application
-      run: npm run build
-
