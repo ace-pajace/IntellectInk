@@ -26,8 +26,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install setuptools wheel
     - name: Build Python package
-      run: python setup.py sdist bdist_wheel
+      run: python ./backand/setup.py sdist bdist_wheel
     - name: Create Release
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
       id: create_python_release
       uses: actions/create-release@v1
       env:
@@ -38,6 +39,7 @@ jobs:
         draft: false
         prerelease: false
     - name: Upload Python Release Asset
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
       id: upload_python_release_asset
       uses: actions/upload-release-asset@v1
       env:
