@@ -1,6 +1,10 @@
+import os
 from setuptools import setup, find_packages
 
-with open('requirements.txt') as f:
+os.chdir('./backend/')
+requirements_file = os.path.join(os.getcwd(), 'requirements.txt')
+
+with open(requirements_file) as f:
     required_packages = f.read().splitlines()
 
 setup(
