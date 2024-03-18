@@ -1,0 +1,63 @@
+name: Build and Release
+
+on:
+  push:
+    branches:
+      - 'main'
+  pull_request:
+    branches:
+      - 'main'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    # Building Python package
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install setuptools wheel
+    - name: Build Python package
+      run: python setup.py sdist bdist_wheel
+    - name: Create Python Release
+      id: create_python_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Python Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+    - name: Upload Python Release Asset
+      id: upload_python_release_asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_python_release.outputs.upload_url }}
+        asset_path: ./dist/*
+        asset_name: my-package-${{ github.ref }}.tar.gz
+        asset_content_type: application/gzip
+
+    # Building React Native package
+    - name: Install Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'
+    - name: Install npm dependencies
+      run: npm install
+    - name: Build React Native application
+      run: npm run build
+
