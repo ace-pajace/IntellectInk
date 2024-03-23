@@ -1,21 +1,23 @@
-from intellectink.models import User
+from intellectink.models import Users
 from django.test import TestCase
 
 
 class UserTestCase(TestCase):
     def setUp(self):
-        User.objects.create(email='babla@student.agh.edu.pl', user_name='bable', password='verysecret')
-        User.objects.create(email='luca@student.agh.edu.pl', user_name='luca', password='neverguess')
+
+        Users.objects.create(email='babla@student.agh.edu.pl', username='ik', password='verysecret', title='dr inz.', name="Ignacy", surname='Kowalski')
+        Users.objects.create(email='luca@student.agh.edu.pl', username='jj', password='1234', title='prof', name="Jan", surname='Jankowski')
 
     def test_user_creation(self):
-        user = User.objects.get(email='babla@student.agh.edu.pl')
-        self.assertEqual(user.user_name, 'bable')
-        user = User.objects.get(email='luca@student.agh.edu.pl')
-        self.assertEqual(user.user_name, 'luca')
+        user = Users.objects.get(email='babla@student.agh.edu.pl')
+        self.assertEqual(user.username, 'ik')
+        user = Users.objects.get(email='luca@student.agh.edu.pl')
+        self.assertEqual(user.username, 'jj')
+
 
     def tearDown(self):
-        bable = User.objects.get(email='babla@student.agh.edu.pl')
-        luca = User.objects.get(email='luca@student.agh.edu.pl')
+        bable = Users.objects.get(email='babla@student.agh.edu.pl')
+        luca = Users.objects.get(email='luca@student.agh.edu.pl')
         bable.delete()
         luca.delete()
 
