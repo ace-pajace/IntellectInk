@@ -18,7 +18,7 @@ class Directories(models.Model):
     directory_id = models.AutoField(primary_key=True)
     parent_directory = models.ForeignKey('self', on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=255)
-    course_id = models.ForeignKey(Courses, on_delete=models.CASCADE)
+    course = models.ForeignKey(Courses, on_delete=models.CASCADE)
 
 class Files(models.Model):
     file_id = models.AutoField(primary_key=True)
@@ -27,9 +27,9 @@ class Files(models.Model):
     data = models.FileField(upload_to='uploaded_files/')
 
 class CourseAccess(models.Model):
-    course_id = models.ForeignKey(Courses, on_delete=models.CASCADE)
-    user_id = models.ForeignKey(Users, on_delete=models.CASCADE)
+    course = models.ForeignKey(Courses, on_delete=models.CASCADE)
+    user = models.ForeignKey(Users, on_delete=models.CASCADE)
     access_level = models.IntegerField() # Proponuję -> 1 zwykły, 2 koordynator, 3 twórca, ew. 0 brak
 
     class Meta:
-        unique_together = ('course_id', 'user_id')
+        unique_together = ('course', 'user')
