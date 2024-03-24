@@ -37,9 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'intellectink',
-    'courses',
-    'authentication'
+    'backend.intellectink',
+    'backend.courses',
+    'backend.authentication',
 ]
 
 MIDDLEWARE = [
