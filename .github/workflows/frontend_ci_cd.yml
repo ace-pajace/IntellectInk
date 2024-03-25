@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  # Test and Lint Job
+# Test and Lint Job
   test-and-lint:
     runs-on: ubuntu-latest
     steps:
@@ -19,16 +19,15 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 21.x
-      - name: Change working directory to frontend
-        working-directory: ./frontend/ 
+      - name: Change to frontend directory
+        run: cd ./frontend
       - name: Install Dependencies
         run: npm install
       - name: Run Lint
-        run: npm run lint
+        run: npm run lint  
       - name: Run Tests
-        run: npm test
-
-  # Build Job
+        run: npm test  
+# Build Job
   build:
     runs-on: ubuntu-latest
     steps:
@@ -38,8 +37,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 21.x
-      - name: Change working directory to frontend
-        working-directory: ./frontend/ 
+      - name: Change to frontend directory
+        run: cd ./frontend
       - name: Install Dependencies
         run: npm install
       - name: Build Project
@@ -48,11 +47,12 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: production-files
-          path: ./dist  
-
+          path: ./dist
   # Deploy Job
   deploy:
+    # Add a dependency to the build job
     needs: build
+    # Specify runner + deployment step
     runs-on: ubuntu-latest
     steps:
       - name: Download artifact
@@ -64,5 +64,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.CI_CD_TOKEN }}
-          publish_dir: ./dist 
-  
+          publish_dir: ./dist
