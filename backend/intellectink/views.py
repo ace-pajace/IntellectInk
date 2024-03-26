@@ -6,8 +6,16 @@ from .models import Users
 from .forms import RegistrationForm
 from .forms import LoginForm
 from .getFrontendUrl import get_frontend_file_path
+from django.contrib.auth import logout
 
-def register(request):
+def home(request):
+    return render(request, 'home.html')
+
+def custom_logout(request):
+    logout(request)
+    return redirect('index')
+
+def custom_register(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
@@ -31,23 +39,30 @@ def register(request):
             return redirect('home')
     else:
         form = RegistrationForm()
-    return render(request, 'registration/register.html', {'form': form}) #w tej linijce wstawic plik html z rejestracja
+    return render(request, get_frontend_file_path('register.html'), {'form': form})
 
-def login(request):
+def custom_authenticate(request, email=None, password=None):
+    try:
+        user = Users.objects.get(email=email)
+        if user.check_password(password):
+            return user
+    except Users.DoesNotExist:
+        return None
+def custom_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
-            username = form.cleaned_data['username']
+            email = form.cleaned_data['email']
             password = form.cleaned_data['password']
-            user = authenticate(request, username=username, password=password)
+            user = custom_authenticate(request, email=email, password=password)
             if user is not None:
                 login(request, user)
                 return redirect('home')
             else:
-                messages.error(request, 'Invalid username or password.')
+                messages.error(request, 'Niepoprawne dane logowania.')
     else:
         form = LoginForm()
-    return render(request, 'login.html', {'form': form}) #w tej linijce wstawic plik html z logowaniem
+    return render(request, 'login.html', {'form': form})
 
 def index(request):
     index_html_path = get_frontend_file_path('index.html')
