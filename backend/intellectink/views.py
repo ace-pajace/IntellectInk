@@ -1,3 +1,5 @@
+import hashlib
+
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
@@ -29,7 +31,7 @@ def custom_register(request):
             new_user = Users.objects.create(
                 email=email,
                 username=username,
-                password=make_password(password),
+                password=hashlib.sha256(password.encode('utf-8')).hexdigest(),
                 title=title,
                 name=name,
                 surname=surname
@@ -41,21 +43,21 @@ def custom_register(request):
         form = RegistrationForm()
     return render(request, get_frontend_file_path('register.html'), {'form': form})
 
-def custom_authenticate(request, email=None, password=None):
+def custom_authenticate( email=None, password=None):
     try:
         user = Users.objects.get(email=email)
-        if user.check_password(password):
+        hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
+        if user.password == hashed_password:
             return user
     except Users.DoesNotExist:
         return None
 def custom_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
-        print("form is not valid")
         if form.is_valid():
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
-            user = custom_authenticate(request, email=email, password=password)
+            user = custom_authenticate( email=email, password=password)
             if user is not None:
                 login(request, user)
                 return redirect('home')
