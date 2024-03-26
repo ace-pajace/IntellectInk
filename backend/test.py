@@ -1,9 +1,6 @@
 import unittest
 
-from intellectink.models import Users
-from intellectink.models import CourseAccess
-from intellectink.models import Courses
-from intellectink.models import Directories
+from backend.intellectink.models import *
 from django.test import TestCase
 
 
