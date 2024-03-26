@@ -1,50 +1,30 @@
+import { Box } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
-// import ApiService from '../ApiService';
+import HomeNavbar from '../components/HomeNavbar';
 
 const HomePage: React.FC = () => {
-    // const [popularMovies, setPopularMovies] = useState<Movie[]>([]);
-    // const apiService = new ApiService();
+    // Do renderowania odpowiedniego widoku w zależności od ścieżki URL
+    // const { semester_number, subject_name, subject_year } = useParams();
+
+    // if (subject_year) {
+    //     // Renderuj widok dla /subjects/semesters/:semester_number/:subject_name/:subject_year
+    // } else if (subject_name) {
+    //     // Renderuj widok dla /subjects/semesters/:semester_number/:subject_name
+    // } else if (semester_number) {
+    //     // Renderuj widok dla /subjects/semesters/:semester_number
+    // } else {
+    //     // Renderuj widok dla /subjects
+    // }
 
     useEffect(() => {
-        // const fetchPopularMovies = async () => {
-        //     const movies = await apiService.getPopularMovies();
-        //     setPopularMovies(movies);
-        // };
-
-        // fetchPopularMovies();
+        // Your code here
     }, []);
 
     return (
-        <div>
-        </div>
-        // <Container maxWidth="xs" sx={{ padding: 5, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-        //     {/* extract to components - CarouselSection */}
-        //     <Typography 
-        //         variant="h5" 
-        //         color="initial" 
-        //         mb={2}
-        //         sx={{ fontWeight: 'bold', color: 'primary.light' }}
-        //     >
-        //         Popular Movies
-        //     </Typography>
-        //     <Carousel
-        //         elements={popularMovies.map((movie) => (
-        //             <MovieItem key={`popular-${movie._id}`} movie={movie} />
-        //         ))} 
-        //     />
-        //     <Typography 
-        //         variant="h5" 
-        //         color="initial" 
-        //         mt={2} 
-        //         mb={2}
-        //         sx={{ fontWeight: 'bold', color: 'primary.light' }}
-        //     >Upcoming Movies</Typography>
-        //     <Carousel
-        //         elements={upcomingMovies.map((movie) => (
-        //             <MovieItem key={`upcoming-${movie._id}`} movie={movie} />
-        //         ))} 
-        //     />
-        // </Container>
+        <Box>
+            <HomeNavbar />
+            {/* Rest of the page content */}
+        </Box>
     );
 }
 

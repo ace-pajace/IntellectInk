@@ -1,36 +1,30 @@
-import React from 'react';
+import { Box, Heading, Text, Button, VStack } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 
-const NoMatchPage: React.FC = () => {
-    // const navigate = useNavigate();
-
-    // const handleGoBack = () => {
-    //     navigate("/");
-    // };
-
-    return (
-        <div></div>
-        // <Container 
-        //     maxWidth="lg"
-        //     component="main"
-        //     sx={{
-        //         display: 'flex',
-        //         flexDirection: 'column',
-        //         alignItems: 'center',
-        //         justifyContent: 'center',
-        //         marginTop: '5rem',
-        //     }}
-        //     >
-        //         <Typography variant="h4" component="h1" mb={3}>
-        //             404 - Page Not Found
-        //         </Typography>
-        //         <Typography variant="body1" mb={5}>
-        //             Oops! The page you are looking for does not exist.
-        //         </Typography>
-        //         <Button variant="contained" color="primary" onClick={handleGoBack}>
-        //             Go Back
-        //         </Button>
-        // </Container>
-    );
+const NoMatchPage = () => {
+  return (
+    <Box
+      width="100%"
+      height="100vh"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      flexDirection="column"
+      bgGradient="linear(to-r, teal.500,green.500)"
+    >
+      <VStack spacing={4} textAlign="center">
+        <Heading as="h1" size="2xl" color="white">
+          404
+        </Heading>
+        <Text fontSize="2xl" color="whiteAlpha.900">
+          Oops! Page not found.
+        </Text>
+        <Button colorScheme="teal" as={Link} to="/">
+          Go Home
+        </Button>
+      </VStack>
+    </Box>
+  );
 };
 
 export default NoMatchPage;

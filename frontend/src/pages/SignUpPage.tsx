@@ -1,95 +1,144 @@
-import * as React from 'react';
+"use client";
+
+import {
+  Flex,
+  Box,
+  FormControl,
+  FormLabel,
+  Input,
+  InputGroup,
+  HStack,
+  InputRightElement,
+  Stack,
+  Button,
+  Heading,
+  Text,
+  useColorModeValue,
+  Link,
+} from "@chakra-ui/react";
+import { useState } from "react";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import LoginNavbar from "../components/LoginNavbar";
+import { useNavigate } from "react-router-dom";
+
+export default function SignupCard() {
+    const navigate = useNavigate();
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  // const [loginResponse, setLoginResponse] = useState(null);
+
+  const handleSignUp = async () => {
+    // const response = await ApiService.login(email, password);
+    // setLoginResponse(response);
+    console.log(`Email: ${email}, Password: ${password}, Confirm Password: ${confirmPassword}`);
+  }
+  
 
 
-export default function SignUpPage() {
-    // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    //     event.preventDefault();
-    //     const data = new FormData(event.currentTarget);
-    //     console.log({
-    //         email: data.get('email'),
-    //         password: data.get('password'),
-    //     });
-    // };
-
-    return (
-        <div></div>
-        // <Container component="main" maxWidth="xs">
-        //     <Box
-        //         my={5}
-        //         sx={{
-        //             display: 'flex',
-        //             flexDirection: 'column',
-        //             alignItems: 'center',
-        //         }}
-        //     >
-        //         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-        //             <LockOutlinedIcon />
-        //         </Avatar>
-        //         <Typography component="h1" variant="h5">
-        //             Sign up
-        //         </Typography>
-        //         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-        //             <Grid container spacing={2}>
-        //                 <Grid item xs={12} sm={6}>
-        //                     <TextField
-        //                         autoComplete="given-name"
-        //                         name="firstName"
-        //                         required
-        //                         fullWidth
-        //                         id="firstName"
-        //                         label="First Name"
-        //                         autoFocus
-        //                     />
-        //                 </Grid>
-        //                 <Grid item xs={12} sm={6}>
-        //                     <TextField
-        //                         required
-        //                         fullWidth
-        //                         id="lastName"
-        //                         label="Last Name"
-        //                         name="lastName"
-        //                         autoComplete="family-name"
-        //                     />
-        //                 </Grid>
-        //                 <Grid item xs={12}>
-        //                     <TextField
-        //                         required
-        //                         fullWidth
-        //                         id="email"
-        //                         label="Email Address"
-        //                         name="email"
-        //                         autoComplete="email"
-        //                     />
-        //                 </Grid>
-        //                 <Grid item xs={12}>
-        //                     <TextField
-        //                         required
-        //                         fullWidth
-        //                         name="password"
-        //                         label="Password"
-        //                         type="password"
-        //                         id="password"
-        //                         autoComplete="new-password"
-        //                     />
-        //                 </Grid>
-        //             </Grid>
-        //             <Button
-        //                 type="submit"
-        //                 fullWidth
-        //                 variant="contained"
-        //                 sx={{ mt: 3, mb: 2 }}
-        //             >
-        //                 Sign Up
-        //             </Button>
-        //             <Grid container justifyContent="flex-end">
-        //                 <Grid item>
-        //                     <Link component={RouterLink} to="/sign-in" variant="body2">
-        //                         Already have an account? Sign in
-        //                     </Link>
-        //                 </Grid>
-        //             </Grid>
-        //         </Box>
-        //     </Box>
-        // </Container>
-    );
+  return (
+    <Box>
+        <LoginNavbar />
+        <Flex
+    //   minH={"100vh"}
+      align={"center"}
+      justify={"center"}
+      bg={useColorModeValue("gray.50", "gray.800")}
+    >
+      <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
+        <Stack align={"center"}>
+          <Heading fontSize={"4xl"} textAlign={"center"}>
+            Sign up
+          </Heading>
+          <Text fontSize={"lg"} color={"gray.600"}>
+            Create an account to access the functionality
+          </Text>
+        </Stack>
+        <Box
+          rounded={"lg"}
+          bg={useColorModeValue("white", "gray.700")}
+          boxShadow={"lg"}
+          p={8}
+        >
+          <Stack spacing={4}>
+            {/* <HStack>
+              <Box>
+                <FormControl id="firstName" isRequired>
+                  <FormLabel>First Name</FormLabel>
+                  <Input type="text" />
+                </FormControl>
+              </Box>
+              <Box>
+                <FormControl id="lastName">
+                  <FormLabel>Last Name</FormLabel>
+                  <Input type="text" />
+                </FormControl>
+              </Box>
+            </HStack> */}
+            <FormControl id="email" isRequired>
+              <FormLabel>Email address</FormLabel>
+              <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            </FormControl>
+            <FormControl id="password" isRequired>
+              <FormLabel>Password</FormLabel>
+              <InputGroup>
+                <Input type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)}  />
+                <InputRightElement h={"full"}>
+                  <Button
+                    variant={"ghost"}
+                    onClick={() =>
+                      setShowPassword((showPassword) => !showPassword)
+                    }
+                  >
+                    {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                  </Button>
+                </InputRightElement>
+              </InputGroup>
+            </FormControl>
+            <FormControl id="confirmPassword" isRequired>
+              <FormLabel>Confirm password</FormLabel>
+              <InputGroup>
+                <Input type={showConfirmPassword ? "text" : "password"} value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+                <InputRightElement h={"full"}>
+                  <Button
+                    variant={"ghost"}
+                    onClick={() =>
+                      setShowConfirmPassword(
+                        (showConfirmPassword) => !showConfirmPassword
+                      )
+                    }
+                  >
+                    {showConfirmPassword ? <ViewIcon /> : <ViewOffIcon />}
+                  </Button>
+                </InputRightElement>
+              </InputGroup>
+            </FormControl>
+            <Stack spacing={10} pt={2}>
+              <Button
+                loadingText="Submitting"
+                size="lg"
+                bg={"teal.400"}
+                color={"white"}
+                _hover={{
+                  bg: "teal.500",
+                }}
+              >
+                Sign up
+              </Button>
+            </Stack>
+            <Stack pt={6}>
+              <Text align={"center"}>
+                Already a user? <Link color={"teal.400"} onClick={() => navigate('/sign-in')}>Sign in</Link>
+              </Text>
+            </Stack>
+          </Stack>
+        </Box>
+      </Stack>
+    </Flex>
+    </Box>
+  );
 }
