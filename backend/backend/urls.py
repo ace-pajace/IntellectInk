@@ -17,9 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from .authentication.views import register, LoginView
+from .courses.views import get_user_courses
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('register/', register, name='register'),
     path('login/', LoginView.as_view(), name='login'),
+    path('user/courses/', get_user_courses, name='get_user_courses')
 ]
