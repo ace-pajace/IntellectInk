@@ -6,7 +6,7 @@
     <title>Home</title>
 </head>
 <body>
-    {% if user.is_authenticated %}
+    {% if request.user.is_authenticated %}
     <h2>Zalogowano poprawnie</h2>
         <p>Witaj, {{ user.username }}!</p>
         <form action="{% url 'logout' %}" method="post">

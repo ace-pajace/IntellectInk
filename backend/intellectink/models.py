@@ -9,7 +9,8 @@ class Courses(models.Model):
     name = models.CharField(max_length=255)
 
 class Users(AbstractUser):
-    email = models.EmailField(unique=True, blank=False, primary_key=True)
+    user_id = models.AutoField(primary_key=True)
+    email = models.EmailField(unique=True, blank=False)
     username = models.CharField(max_length=255)
     password = models.CharField(max_length=255)
     title = models.CharField(max_length=255, null=True)
