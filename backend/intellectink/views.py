@@ -51,6 +51,7 @@ def custom_authenticate(request, email=None, password=None):
 def custom_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
+        print("form is not valid")
         if form.is_valid():
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']

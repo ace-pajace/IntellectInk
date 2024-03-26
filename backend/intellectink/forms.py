@@ -12,14 +12,14 @@ class RegistrationForm(forms.ModelForm):
         }
 
 class LoginForm(forms.Form):
-    username = forms.CharField(max_length=255)
+    email = forms.CharField(max_length=255)
     password = forms.CharField(widget=forms.PasswordInput)
 
 
-    def clean_username(self):
-        username = self.cleaned_data.get('username')
+    def clean_email(self):
+        username = self.cleaned_data.get('email')
         if len(username) > 255:
-            raise forms.ValidationError('Username cannot be longer than 255 characters')
+            raise forms.ValidationError('Email cannot be longer than 255 characters')
         return username
 
     def clean_password(self):
