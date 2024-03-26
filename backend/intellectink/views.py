@@ -5,6 +5,7 @@ from django.contrib import messages
 from .models import Users
 from .forms import RegistrationForm
 from .forms import LoginForm
+from .getFrontendUrl import get_frontend_file_path
 
 def register(request):
     if request.method == 'POST':
@@ -32,7 +33,7 @@ def register(request):
         form = RegistrationForm()
     return render(request, 'registration/register.html', {'form': form}) #w tej linijce wstawic plik html z rejestracja
 
-def user_login(request):
+def login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -47,3 +48,7 @@ def user_login(request):
     else:
         form = LoginForm()
     return render(request, 'login.html', {'form': form}) #w tej linijce wstawic plik html z logowaniem
+
+def index(request):
+    index_html_path = get_frontend_file_path('index.html')
+    return render(request, index_html_path)

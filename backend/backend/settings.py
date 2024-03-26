@@ -11,6 +11,14 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+
+#Tu jest bardzo brzydkie rozwiazanie z powieleniem tej samej funkcji w dwoch miejscach, drugim miejscem jest folder intellectink
+def get_frontend_file_path(file):
+    intellectink_dir = os.path.dirname(os.path.dirname(__file__))
+    html_path = os.path.join(intellectink_dir, '..', 'frontend', 'public', file)
+    return os.path.abspath(html_path)
+#nie polecam, ale nie wiedzialem, jak to obejsc, a czas nagli
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -50,12 +58,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'backend.urls'
+ROOT_URLCONF = 'intellectink.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(get_frontend_file_path(''))],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
