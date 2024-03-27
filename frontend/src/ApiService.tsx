@@ -34,12 +34,56 @@ export default class ApiService {
         }
     }
 
+    
     async getUserCourses() {
+        function romanToNumber(roman: string): number { //to jest jakiś nieśmieszny żart, że muszę to tutaj robić
+            const romanNumerals: { [index: string]: number } = { I: 1, II: 2, III: 3, IV: 4, V: 5, VI: 6, VII: 7, VIII: 8, IX: 9, X: 10 };
+            return romanNumerals[roman];
+        }
+    
         try {
             const response = await this.api.get(API.GET_COURSES);
             console.log('Kursy użytkownika', response.data);
+            const termNumbers = response.data.courses.map((course: { term: string }) => romanToNumber(course.term));
+            const uniqueTermNumbers: number[] = Array.from(new Set(termNumbers));
+            console.log('Numery semestrów', uniqueTermNumbers);
+            return uniqueTermNumbers;
         } catch (error) {
             console.error('Błąd pobierania kursów', error);
+            throw error;
+        }
+    }
+
+    async getSubjects(semesterNumber: number) {
+        function romanToNumber(roman: string): number { //to jest jakiś nieśmieszny żart, że muszę to tutaj robić
+            const romanNumerals: { [index: string]: number } = { I: 1, II: 2, III: 3, IV: 4, V: 5, VI: 6, VII: 7, VIII: 8, IX: 9, X: 10 };
+            return romanNumerals[roman];
+        }
+        try {
+            const response = await this.api.get(API.GET_COURSES);
+            console.log('Kursy użytkownika', response.data);
+            const subjects = response.data.courses.filter((course: { term: string }) => romanToNumber(course.term) === semesterNumber);
+            const subjectNames = subjects.map((subject: { name: string }) => subject.name);
+            const uniqueSubjectNames: string[] = Array.from(new Set(subjectNames));
+            console.log('Przedmioty', uniqueSubjectNames);
+            return uniqueSubjectNames;
+        } catch (error) {
+            console.error('Błąd pobierania przedmiotów', error);
+            throw error;
+        }
+    }
+
+    async getEditions(subjectName: string) {    
+        try {
+            const response = await this.api.get(API.GET_COURSES);
+            console.log("Nazwa przedmiotu", subjectName)
+            const subjects = response.data.courses.filter((course: { name: string }) => course.name === subjectName);
+            const subjectEditions: string[] = subjects.map((subject: { edition: string }) => subject.edition);
+            console.log('Edycje', subjectEditions);
+            return subjectEditions;
+        } catch (error) {
+            console.error('Błąd pobierania przedmiotów', error);
+            throw error;
         }
     }
 }

@@ -3,6 +3,7 @@ import HomePage from './pages/HomePage';
 import NoMatchPage from './pages/NoMatchPage';
 import SignInPage from './pages/SignInPage';
 import SignUpPage from './pages/SignUpPage';
+import NewSubjectPage from './pages/NewSubjectPage';
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
         ],
       },
     ],
+  },
+  {
+    path: "subjects/create",
+    element: <NewSubjectPage />,
   },
   {
     path: "/sign-in",
