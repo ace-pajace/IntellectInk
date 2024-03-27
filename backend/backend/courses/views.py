@@ -3,8 +3,10 @@ from django.http import JsonResponse
 from ..intellectink.models import CourseAccess, Courses, Users, Directories
 
 
-@login_required
+# @login_required
 def get_user_courses(request):
+    if not request.user.is_authenticated:
+        return JsonResponse({'error': 'Authentication needed'}, status=401)
     user_email = request.user.email
     user_courses = CourseAccess.objects.filter(user__email=user_email).select_related('course')
 
@@ -18,7 +20,7 @@ def get_user_courses(request):
     return JsonResponse({'courses': courses_data})
 
 
-@login_required
+# @login_required
 def delete_course(request):
     """
     Delete specified course.
@@ -27,6 +29,8 @@ def delete_course(request):
     :return:
     JSON response with status 200 - OK, or 403 - Forbidden if permissions are not enough.
     """
+    if not request.user.is_authenticated:
+        return JsonResponse({'error': 'Authentication needed'}, status=401)
     user_email = request.user.email
     course_todelete = request.data.get('course_id')
     access = CourseAccess.objects.filter(user__email=user_email).filter(course__course_id=course_todelete)
@@ -40,7 +44,7 @@ def delete_course(request):
             return JsonResponse({'message': "Access granted. Course deleted"}, status=200)
 
 
-@login_required
+# @login_required
 def edit_course(request):
     """
     :param request:
@@ -50,6 +54,8 @@ def edit_course(request):
     :return:
     JSON response with status 200 - OK, or 403 - Forbidden if permissions are not enough.
     """
+    if not request.user.is_authenticated:
+        return JsonResponse({'error': 'Authentication needed'}, status=401)
     user_email = request.user.email
     course_toupdate = request.data.get('course_id')
     access = CourseAccess.objects.filter(user__email=user_email).filter(course__course_id=course_toupdate)
@@ -65,7 +71,7 @@ def edit_course(request):
             return JsonResponse({'message': "Course updated"}, status=200)
 
 
-@login_required
+# @login_required
 def create_course(request):
     """
     Creates a new Course. Creates a new CourseAccess, making the user who is creating the course, the creator.
@@ -75,6 +81,8 @@ def create_course(request):
     :return:
     JSON response: Course created upon successful creation, with status 200 - OK.
     """
+    if not request.user.is_authenticated:
+        return JsonResponse({'error': 'Authentication needed'}, status=401)
     parent_c_id = request.data.get('course_id')
     if parent_c_id is None:
         course = Courses(term=request.data.get('term'), name=request.data.get('name'),
@@ -100,7 +108,7 @@ def create_course(request):
 
 ### COURSES DONE ### DIRECTORIES TIME
 
-@login_required
+# @login_required
 def get_course_directories(request):
     """
     Get the directories of a specified course.
@@ -110,6 +118,8 @@ def get_course_directories(request):
     JSON response with either: list of dicts containing info about the directories with status 200 - OK
     Or a message with status 403 - Forbidden
     """
+    if not request.user.is_authenticated:
+        return JsonResponse({'error': 'Authentication needed'}, status=401)
     user_email = request.user.email
     course_id = request.data.get('course_id')
     access = CourseAccess.objects.filter(user__email=user_email).filter(course__course_id=course_id)
@@ -127,7 +137,7 @@ def get_course_directories(request):
     return JsonResponse({'directories': directories_data}, status=200)
 
 
-@login_required
+# @login_required
 def edit_directory(request):
     """
     Edit a directory.
@@ -136,6 +146,8 @@ def edit_directory(request):
     :return:
     JSON response with either status 200 - OK or 403 - Forbidden
     """
+    if not request.user.is_authenticated:
+        return JsonResponse({'error': 'Authentication needed'}, status=401)
     user_email = request.user.email
     directory_id = request.data.get('directory_id')
     course = Directories.objects.get(directory_id=directory_id).course
@@ -151,7 +163,7 @@ def edit_directory(request):
     return JsonResponse({'message': 'Directory successfully updated'}, status=200)
 
 
-@login_required
+# @login_required
 def delete_directory(request):
     """
     Deletes specified directory.
@@ -160,6 +172,8 @@ def delete_directory(request):
     :return:
     JSON response with either status 200 - OK or 403 - Forbidden
     """
+    if not request.user.is_authenticated:
+        return JsonResponse({'error': 'Authentication needed'}, status=401)
     user_email = request.user.email
     directory_id = request.data.get('directory_id')
     closed_dir = Directories.objects.get(directory_id=directory_id)
@@ -172,7 +186,7 @@ def delete_directory(request):
     closed_dir.delete()
 
 
-@login_required
+# @login_required
 def create_directory(request):
     """
     Creates a new directory.
@@ -181,6 +195,8 @@ def create_directory(request):
     :return:
     JSON response with either status 200 - OK or 403 - Forbidden
     """
+    if not request.user.is_authenticated:
+        return JsonResponse({'error': 'Authentication needed'}, status=401)
     user_email = request.user.email
     course = Directories.objects.get(directory_id=request.data.get('directory_id')).course
     access = CourseAccess.objects.filter(user__email=user_email).filter(course=course)
