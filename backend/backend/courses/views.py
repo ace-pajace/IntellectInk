@@ -90,7 +90,7 @@ def create_course(request):
         course.save()
         course_access = CourseAccess(user=request.user, course=course, access_level=3)
         course_access.save()
-        directory = Directory(parent_directory=None, name="root", course=course)
+        directory = Directories(parent_directory=None, name="root", course=course)
         directory.save()
         return JsonResponse({'message': "Course created"}, status=200)
         # You create the course from scratch
@@ -100,7 +100,7 @@ def create_course(request):
         course = Courses(term=request.data.get('term'), name=name, edition=request.data.get('edition'))
         course_access = CourseAccess(user=request.user, course=course, access_level=3)
         course_access.save()
-        directory = Directory(parent_directory=None, name="root", course=course)
+        directory = Directories(parent_directory=None, name="root", course=course)
         directory.save()
         return JsonResponse({'message': "Course created"}, status=200)
         # Get the name from an existing course
