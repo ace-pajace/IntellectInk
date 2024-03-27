@@ -1,6 +1,8 @@
-import { Box } from '@chakra-ui/react';
+import { Box, Button, Grid, HStack, VStack } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
 import HomeNavbar from '../components/HomeNavbar';
+import SemesterBlock from '../components/SemesterBlock';
+import { useState } from 'react';
 
 const HomePage: React.FC = () => {
     // Do renderowania odpowiedniego widoku w zależności od ścieżki URL
@@ -16,14 +18,20 @@ const HomePage: React.FC = () => {
     //     // Renderuj widok dla /subjects
     // }
 
-    useEffect(() => {
-        // Your code here
-    }, []);
-
     return (
         <Box>
             <HomeNavbar />
             {/* Rest of the page content */}
+            <Box padding={"50px"}>
+                <HStack spacing={4} align="stretch">
+                    <VStack spacing={4} align="stretch" minW={"1100px"}>
+                        <SemesterBlock semesterNumber={1}/>
+                        <SemesterBlock semesterNumber={2}/>
+                        <SemesterBlock semesterNumber={3}/>
+                    </VStack>
+                    <Button colorScheme="pink" variant="outline" minH={"50px"} minW={"200px"} position={"absolute"} top={"110px"} right={"40px"}>Utwórz nowy przedmiot</Button>
+                </HStack>
+            </Box>
         </Box>
     );
 }
