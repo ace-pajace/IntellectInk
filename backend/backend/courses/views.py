@@ -62,7 +62,7 @@ def edit_course(request):
             updating_course = Courses.objects.get(course_id=course_toupdate['id'])
             updating_course.name = course_toupdate['name']
             updating_course.edition = course_toupdate['edition']
-            return JSONResponse({'message': "Course updated"}, status=200)
+            return JsonResponse({'message': "Course updated"}, status=200)
 
 
 @login_required
@@ -84,7 +84,7 @@ def create_course(request):
         course_access.save()
         directory = Directory(parent_directory=None, name="root", course=course)
         directory.save()
-        return JSONResponse({'message': "Course created"}, status=200)
+        return JsonResponse({'message': "Course created"}, status=200)
         # You create the course from scratch
     else:
         p_course = Courses.objects.get(course_id=parent_c_id)
