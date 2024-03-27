@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Card, HStack, Text } from '@chakra-ui/react';
+import { Card, HStack, Text } from '@chakra-ui/react';
 import { Box, Collapse } from '@chakra-ui/react';
 import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 import { useState } from 'react';

@@ -1,8 +1,7 @@
-import { Box, Button, Grid, HStack, VStack } from '@chakra-ui/react';
-import React, { useEffect } from 'react';
+import { Box, Button, HStack, VStack } from '@chakra-ui/react';
+import React from 'react';
 import HomeNavbar from '../components/HomeNavbar';
 import SemesterBlock from '../components/SemesterBlock';
-import { useState } from 'react';
 
 const HomePage: React.FC = () => {
     // Do renderowania odpowiedniego widoku w zależności od ścieżki URL
