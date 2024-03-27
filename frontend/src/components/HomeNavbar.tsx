@@ -128,7 +128,7 @@ const HomeNavbar: React.FC<NavbarProps> = ({ children }) => {
                 {/* Avatar Button */}
                 <Flex alignItems={"center"}>
                     <Menu>
-                        <Text me={4}>Hello, {username}!</Text>
+                        <Text me={4}>Witaj, {username}!</Text>
                         <MenuButton
                             as={Button}
                             rounded={"full"}
@@ -140,9 +140,9 @@ const HomeNavbar: React.FC<NavbarProps> = ({ children }) => {
                         </MenuButton>
                         <MenuList>
                             {/* Avatar Button <MenuItem>s*/}
-                            <MenuItem>Profile</MenuItem>
+                            <MenuItem>Konto</MenuItem>
                             <MenuDivider />
-                            <MenuItem color={"red"}>Sign out</MenuItem>
+                            <MenuItem color={"red"}>Wyloguj się</MenuItem>
                         </MenuList>
                     </Menu>
                 </Flex>

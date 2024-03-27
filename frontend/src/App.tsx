@@ -4,6 +4,7 @@ import NoMatchPage from './pages/NoMatchPage';
 import SignInPage from './pages/SignInPage';
 import SignUpPage from './pages/SignUpPage';
 import SubjectPage from "./pages/SubjectPage";
+import ShareSubjectPage from "./pages/ShareSubjectPage";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,11 @@ const router = createBrowserRouter([
   {
     path: "/subjectEditionView",
     element: <SubjectPage />,
+  },
+  // TODO add logic of :subject_id
+  {
+    path: "/subjectEditionView/:subject_id/share",
+    element: <ShareSubjectPage />,
   },
   {
     path: "*",
