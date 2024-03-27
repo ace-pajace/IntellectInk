@@ -9,14 +9,17 @@ interface TreeNodeProps {
   label: string;
   type: 'directory' | 'file';
   children?: React.ReactNode;
+  setActiveNode?: (node: string) => void;
+  isActive?: boolean;
 }
 
-const TreeNode: React.FC<TreeNodeProps> = ({ label, type, children }) => {
+const TreeNode: React.FC<TreeNodeProps> = ({ label, type, children, setActiveNode, isActive }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [nodes, setNodes] = useState<TreeNodeProps[]>([]);
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
+    setActiveNode && setActiveNode(label)
   };
 
   const addNode = () => {
@@ -26,7 +29,11 @@ const TreeNode: React.FC<TreeNodeProps> = ({ label, type, children }) => {
   const Icon = type === 'directory' ? FolderIcon : InsertDriveFileIcon;
 
   return (
-    <VStack align="start" spacing={1}>
+    <VStack 
+      align="start" 
+      spacing={1}
+      backgroundColor={isActive ? 'gray.200' : undefined}
+    >
       <HStack width="100%" position={"relative"}>
         <Button 
           variant="ghost" 
@@ -42,7 +49,7 @@ const TreeNode: React.FC<TreeNodeProps> = ({ label, type, children }) => {
           <Button variant="ghost" onClick={addNode} rightIcon={<AddIcon />} position={"absolute"} right={2}/>
         )}
       </HStack>
-      <Collapse in={isOpen}>
+      <Collapse in={isOpen && type==="directory"}>
         <Box pl={5} width="100%">
           {children}
           {nodes.map((node, index) => (
@@ -55,33 +62,3 @@ const TreeNode: React.FC<TreeNodeProps> = ({ label, type, children }) => {
 };
 
 export default TreeNode;
-
-// import { Box, VStack, Collapse, Button } from '@chakra-ui/react';
-// import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons';
-// import { useState } from 'react';
-
-// interface TreeNodeProps {
-//   label: string;
-//   children?: React.ReactNode;
-// }
-
-// const TreeNode: React.FC<TreeNodeProps> = ({ label, children }) => {
-//   const [isOpen, setIsOpen] = useState(false);
-
-//   const handleToggle = () => {
-//     setIsOpen(!isOpen);
-//   };
-
-//   return (
-//     <VStack align="start" spacing={1}>
-//       <Button variant="ghost" onClick={handleToggle} leftIcon={isOpen ? <ChevronDownIcon /> : <ChevronRightIcon />}>
-//         {label}
-//       </Button>
-//       <Collapse in={isOpen}>
-//         <Box pl={5}>{children}</Box>
-//       </Collapse>
-//     </VStack>
-//   );
-// };
-
-// export default TreeNode;
