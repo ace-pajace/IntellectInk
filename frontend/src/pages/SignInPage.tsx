@@ -17,8 +17,10 @@ import {
 import LoginNavbar from "../components/LoginNavbar";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ApiService from "../ApiService";
 
 export default function SignInPage() {
+  const apiService = new ApiService();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState('');
@@ -26,9 +28,14 @@ export default function SignInPage() {
   // const [loginResponse, setLoginResponse] = useState(null);
 
   const handleSignIn = async () => {
-    // const response = await ApiService.login(email, password);
+    console.log(`Username: ${email}, Password: ${password}`);
+    const response = await apiService.login(email, password);
     // setLoginResponse(response);
-    console.log(`Email: ${email}, Password: ${password}`);
+    if (response) {
+      navigate('/subjects');
+    } else {
+      console.log('Login failed');
+    }
   }
 
   return (
@@ -69,22 +76,22 @@ export default function SignInPage() {
                   justify={"space-between"}
                 >
                   <Checkbox>Remember me</Checkbox>
-                  <Text color={"teal.400"}>Forgot password?</Text>
+                  <Text color={"pink.400"}>Forgot password?</Text>
                 </Stack>
                 <Button
                   onClick={handleSignIn} type="submit" as={'a'}
-                  bg={"teal.400"}
+                  bg={"pink.400"}
                   color={"white"}
                   _hover={{
-                    bg: "teal.500",
+                    bg: "pink.500",
                   }}
                 >
                   Sign in
                 </Button>
               </Stack>
-              <Stack pt={6}>
+              <Stack pt={1}>
                 <Text align={"center"}>
-                  You don't have an account? <Link color={"teal.400"} onClick={() => navigate('/sign-up')}>Sign up</Link>
+                  You don't have an account? <Link color={"pink.400"} onClick={() => navigate('/sign-up')}>Sign up</Link>
                 </Text>
               </Stack>
             </Stack>
