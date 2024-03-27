@@ -3,6 +3,7 @@ import HomePage from './pages/HomePage';
 import NoMatchPage from './pages/NoMatchPage';
 import SignInPage from './pages/SignInPage';
 import SignUpPage from './pages/SignUpPage';
+import SubjectPage from "./pages/SubjectPage";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
   {
     path: "/sign-up",
     element: <SignUpPage />,
+  },
+  {
+    path: "/subjectEditionView",
+    element: <SubjectPage />,
   },
   {
     path: "*",

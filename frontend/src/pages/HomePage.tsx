@@ -22,7 +22,7 @@ const HomePage: React.FC = () => {
 
     return (
         <Box>
-            <HomeNavbar />
+            <HomeNavbar children={[]} />
             {/* Rest of the page content */}
         </Box>
     );
