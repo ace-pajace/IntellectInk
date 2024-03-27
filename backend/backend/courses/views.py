@@ -78,16 +78,20 @@ def create_course(request):
     Creates a new Course. Creates a new CourseAccess, making the user who is creating the course, the creator.
     Creates a new Directory, and sets it as the root directory for the created course.
     :param request:
-    Data must contain 'term' and 'edition', and either 'course_id' or 'name'
+    Data must contain 'term', 'edition' and 'name' - the data for new courses
     :return:
     JSON response: Course created upon successful creation, with status 200 - OK.
     """
     if not request.user.is_authenticated:
         return JsonResponse({'error': 'Authentication needed'}, status=401)
-    parent_c_id = request.data.get('course_id')
-    if parent_c_id is None:
-        course = Courses(term=request.data.get('term'), name=request.data.get('name'),
-                         edition=request.data.get('edition'))
+    c_name = request.data.get('name')
+    c_edition = request.data.get('edition')
+    c_term = request.data.get('term')
+    course = Courses.objects.filter(term=c_term).filter(name=c_name).filter(edition=c_edition)
+    if course:
+        return JsonResponse({'message' : "Course already exists"}, status=409)
+    else:
+        course = Courses(name=c_name, edition=c_edition, term=c_term)
         course.save()
         course_access = CourseAccess(user=request.user, course=course, access_level=3)
         course_access.save()
@@ -95,16 +99,6 @@ def create_course(request):
         directory.save()
         return JsonResponse({'message': "Course created"}, status=200)
         # You create the course from scratch
-    else:
-        p_course = Courses.objects.get(course_id=parent_c_id)
-        name = p_course.name
-        course = Courses(term=request.data.get('term'), name=name, edition=request.data.get('edition'))
-        course_access = CourseAccess(user=request.user, course=course, access_level=3)
-        course_access.save()
-        directory = Directories(parent_directory=None, name="root", course=course)
-        directory.save()
-        return JsonResponse({'message': "Course created"}, status=200)
-        # Get the name from an existing course
 
 
 ### COURSES DONE ### DIRECTORIES TIME
