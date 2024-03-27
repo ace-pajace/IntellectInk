@@ -50,7 +50,7 @@ const HomePage: React.FC = () => {
 
     return (
         <Box>
-            <HomeNavbar children={[]} />
+            <HomeNavbar />
             {/* Rest of the page content */}
             <Box padding={"50px"}>
                 <HStack spacing={4} align="stretch">
