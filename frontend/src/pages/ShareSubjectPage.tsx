@@ -41,7 +41,7 @@ export default function ShareSubjectPage() {
                         p={8}
                     >
                         <Stack spacing={4}>
-                            <Heading fontSize={"2xl"}>Zaproś użytkowników</Heading>
+                            <Heading fontSize={"xl"}>Zaproś użytkowników</Heading>
                             <FormControl id="user_email" mb={8}>
                                 <HStack>
                                     <Input type="text" value={user_email} placeholder="Email użytkownika"/>
@@ -57,7 +57,7 @@ export default function ShareSubjectPage() {
                                     </Button>
                                 </HStack>
                             </FormControl> 
-                            <Heading fontSize={"2xl"}>Tryb</Heading>
+                            <Heading fontSize={"xl"}>Tryb</Heading>
                             <FormControl id="user_email" mb={4}>
                                 <VStack spacing={5}>
                                     <RadioGroup defaultValue="1" mb={4}>

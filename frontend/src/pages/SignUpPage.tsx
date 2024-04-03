@@ -122,10 +122,10 @@ export default function SignupCard() {
                                 <Button
                                     loadingText="Submitting"
                                     size="lg"
-                                    bg={"teal.400"}
+                                    bg={"pink.400"}
                                     color={"white"}
                                     _hover={{
-                                        bg: "teal.500",
+                                        bg: "pink.500",
                                     }}
                                 >
                                     Sign up
@@ -133,7 +133,7 @@ export default function SignupCard() {
                             </Stack>
                             <Stack pt={6}>
                                 <Text align={"center"}>
-                                    Already a user? <Link color={"teal.400"} onClick={() => navigate('/sign-in')}>Sign in</Link>
+                                    Already a user? <Link color={"pink.400"} onClick={() => navigate('/sign-in')}>Sign in</Link>
                                 </Text>
                             </Stack>
                         </Stack>
