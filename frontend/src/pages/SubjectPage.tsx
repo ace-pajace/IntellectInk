@@ -5,7 +5,6 @@ import HomeNavbar from "../components/HomeNavbar";
 import TreeNode from '../components/TreeNode';
 import { useState } from 'react';
 
-const Links = ["WDI 22/23", "ASD 22/23", "Matematyka Dyskretna 21/22"];
 
 interface Node {
     id: string;
@@ -18,6 +17,7 @@ interface Node {
 import { v4 as uuidv4 } from 'uuid';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+const links = ["WDI 22/23", "ASD 22/23", "Matematyka Dyskretna 21/22"];
 const initialNodes: Node[] = [
     {
         id: uuidv4(),
@@ -83,7 +83,10 @@ export default function SubjectPage() {
     // - addDirectoryNode (zapisanie do bazy -> dodanie do drzewa) 
     // - addFileNode (upload -> nowy widok -> pobranie pliku -> zapisanie do bazy -> dodanie do drzewa) 
     const addNode = (type: 'directory' | 'file') => {
-        const findNodeAndParent = (nodes: Node[], label: string): [Node | null, Node[] | null] => {
+        const findNodeAndParent = (nodes: Node[] | undefined, label: string): [Node | null, Node[] | null] => {
+            if (!nodes) {
+                throw new Error('Nodes is undefined');
+            }
             for (let i = 0; i < nodes.length; i++) {
                 if (nodes[i].label === label) {
                     return [nodes[i], nodes];
@@ -126,7 +129,7 @@ export default function SubjectPage() {
 
     return (
         <>
-            <HomeNavbar children={Links} />
+            <HomeNavbar children={links} />
             {/* we need to change this minHeight*/}
             <Flex p={4} direction="column" minHeight={"80vh"}>
                 {/* SubjectNavbar */}
