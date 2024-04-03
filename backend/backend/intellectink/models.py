@@ -3,14 +3,13 @@ from django.db import models
 
 class Courses(models.Model):
     course_id = models.AutoField(primary_key=True)
-    term = models.CharField(max_length=255)
+    term = models.IntegerField()
     edition = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
 
 
 class Users(models.Model):
     email = models.EmailField(unique=True, blank=False, primary_key=True)
-    username = models.CharField(max_length=255)
     password = models.CharField(max_length=255)
     title = models.CharField(max_length=255, null=True)
     name = models.CharField(max_length=255, null=True)
@@ -35,6 +34,7 @@ class CourseAccess(models.Model):
     course = models.ForeignKey(Courses, on_delete=models.CASCADE)
     user = models.ForeignKey(Users, on_delete=models.CASCADE)
     access_level = models.IntegerField()  # Proponuję -> 1 zwykły, 2 koordynator, 3 twórca, ew. 0 brak
+    is_template = models.BooleanField()
 
     class Meta:
         unique_together = ('course', 'user')
