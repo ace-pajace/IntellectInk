@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import AbstractUser
 
 class Courses(models.Model):
     course_id = models.AutoField(primary_key=True)
@@ -8,12 +8,29 @@ class Courses(models.Model):
     name = models.CharField(max_length=255)
 
 
-class Users(models.Model):
-    email = models.EmailField(unique=True, blank=False, primary_key=True)
+class Users(AbstractUser):
+    user_id = models.AutoField(primary_key=True)
+    email = models.EmailField(unique=True, blank=False)
     password = models.CharField(max_length=255)
     title = models.CharField(max_length=255, null=True)
     name = models.CharField(max_length=255, null=True)
     surname = models.CharField(max_length=255, null=True)
+    groups = models.ManyToManyField(
+        'auth.Group',
+        related_name='custom_user_groups',
+        blank=True,
+        verbose_name='groups',
+        help_text='The groups this user belongs to. ',
+    )
+
+    user_permissions = models.ManyToManyField(
+        'auth.Permission',
+        related_name='custom_user_permissions',
+        blank=True,
+        verbose_name='user permissions',
+        help_text='Specific permissions for this user.',
+        related_query_name='user',
+    )
 
 
 class Directories(models.Model):
