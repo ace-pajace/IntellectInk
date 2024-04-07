@@ -1,24 +1,64 @@
+import json
+
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from ..intellectink.models import CourseAccess, Courses, Users, Directories
 
 
-# @login_required
-def get_user_courses(request):
-    # if not request.user.is_authenticated:
-    #     return JsonResponse({'error': 'Authentication needed'}, status=401)
-    # user_email = request.user.email
-    user_email = "babla@student.agh.edu.pl"
-    user_courses = CourseAccess.objects.filter(user__email=user_email).select_related('course')
+def get_available_sems_for_user(request, email):
+    """Gets all available semesters for specified user."""
+    try:
+        user = Users.objects.get(email=email)
+    except Users.DoesNotExist:
+        return JsonResponse({'error': 'User does not exist'}, status=404)
 
-    courses_data = [{
-        'name': access.course.name,
-        'term': access.course.term,
-        'edition': access.course.edition,
-        'access_level': access.access_level
-    } for access in user_courses]
+    course_accesses = CourseAccess.objects.filter(user=user)
 
-    return JsonResponse({'courses': courses_data})
+    semesters = set()
+    for access in course_accesses:
+        semesters.add(access.course.term)
+
+    sorted_semesters = {
+        'semesters': sorted(list(semesters))
+    }
+
+    return JsonResponse(sorted_semesters, status=200, safe=False)
+
+
+def get_courses_for_semester(request, email, semester_number):
+    """Get courses for given semester for specified user."""
+    try:
+        user = Users.objects.get(email=email)
+    except Users.DoesNotExist:
+        return JsonResponse({'error': 'User does not exist'}, status=404)
+
+    courses = Courses.objects.filter(courseaccess__user__email=email, term=semester_number)
+
+    subjects = {
+        'subjects': sorted(set([course.name for course in courses]))
+    }
+
+    return JsonResponse(subjects, status=200, safe=False)
+
+
+def get_courses_editions(request, email, semester_number, subject_name):
+    """Get courses editions for specified user, semester number and subject name."""
+    try:
+        user = Users.objects.get(email=email)
+    except Users.DoesNotExist:
+        return JsonResponse({'error': 'User does not exist'}, status=404)
+
+    courses = Courses.objects.filter(courseaccess__user__email=email, term=semester_number, name=subject_name)
+
+    editions = [
+        [course.edition, CourseAccess.objects.get(course=course, user__email=email).access_level] for course in courses
+    ]
+
+    editions = {
+        'editions': sorted(editions, key=lambda x: x[0])
+    }
+
+    return JsonResponse(editions, status=200, safe=False)
 
 
 # @login_required
