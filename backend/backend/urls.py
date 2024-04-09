@@ -17,14 +17,27 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from .authentication.views import register, LoginView
-from .courses.views import get_user_courses, delete_course, edit_course, create_course
-from .courses.views import get_course_directories, delete_directory, edit_directory, create_directory
+from .courses.views import (
+    get_available_sems_for_user,
+    get_courses_for_semester,
+    get_courses_editions,
+    delete_course,
+    edit_course,
+    create_course,
+    get_course_directories,
+    delete_directory,
+    edit_directory,
+    create_directory
+)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('register/', register, name='register'),
     path('login/', LoginView.as_view(), name='login'),
-    path('user/courses/', get_user_courses, name='get_user_courses'),
+    path('<str:email>/semesters/', get_available_sems_for_user, name='get_available_sems_for_user'),
+    path('<str:email>/semesters/<int:semester_number>/', get_courses_for_semester, name='get_courses_for_semester'),
+    path('<str:email>/semesters/<int:semester_number>/<str:subject_name>/', get_courses_editions, name='get_courses_editions'),
     path('user/courses/delete', delete_course, name='delete_course'),
     path('user/courses/edit', edit_course, name='edit_course'),
     path('user/courses/create', create_course, name='create_course'),
