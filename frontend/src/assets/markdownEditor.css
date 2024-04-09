@@ -1,0 +1,73 @@
+.markdown-editor {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 20px;
+  padding: 20px;
+}
+
+.editor-input,
+.editor-preview {
+  height: 75vh;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+.editor-input {
+  font-family: monospace;
+}
+
+.editor-preview {
+  background-color: #f8f8f8;
+}
+
+.editor-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.editor-actions button {
+  padding: 10px 15px;
+  background-color: #d53f8c;
+  border: none;
+  color: white;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.editor-actions button:hover {
+  background-color: #d53f8c;
+}
+
+.editor-actions input[type="text"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  width: 200px;
+}
+
+.light-theme,
+body.light-theme {
+  background-color: #ffffff;
+  color: #0d1117;
+}
+
+.dark-theme,
+body.dark-theme {
+  background-color: #0d1117;
+  color: #fff;
+}
+
+.input-light {
+  background-color: #ffffff;
+  color: #0d1117;
+  border: 1px solid #ccc;
+}
+
+.input-dark {
+  background-color: #0d1117;
+  color: #c9d1d9;
+  border: 1px solid #555;
+}
