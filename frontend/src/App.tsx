@@ -7,6 +7,7 @@ import SubjectPage from "./pages/SubjectPage";
 import ShareSubjectPage from "./pages/ShareSubjectPage";
 import TestPage from "./pages/TestPage";
 import NewSubjectPage from "./pages/NewSubjectPage";
+import MarkdownPage from "./pages/MarkdownPage";
 
 const router = createBrowserRouter([
     {
@@ -54,6 +55,10 @@ const router = createBrowserRouter([
     {
         path: "/subjectEditionView/:subject_id/share",
         element: <ShareSubjectPage />,
+    },
+    {
+        path: "/markdown",
+        element: <MarkdownPage />,
     },
     {
         path: "*",

@@ -16,14 +16,12 @@ import {
   } from "@chakra-ui/react";
 import HomeNavbar from "../components/HomeNavbar";
 
-const Links = ["WDI 22/23", "ASD 22/23", "Matematyka Dyskretna 21/22"];
-
 export default function ShareSubjectPage() {
     const user_email = "";
 
     return (
         <>
-            <HomeNavbar children={Links} />
+            <HomeNavbar />
             <Flex
                 // minH={"100vh"}
                 align={"center"}

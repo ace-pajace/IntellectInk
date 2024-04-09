@@ -17,7 +17,6 @@ interface Node {
 import { v4 as uuidv4 } from 'uuid';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-const links = ["WDI 22/23", "ASD 22/23", "Matematyka Dyskretna 21/22"];
 const initialNodes: Node[] = [
     {
         id: uuidv4(),
@@ -129,7 +128,7 @@ export default function SubjectPage() {
 
     return (
         <>
-            <HomeNavbar children={links} />
+            <HomeNavbar />
             {/* we need to change this minHeight*/}
             <Flex p={4} direction="column" minHeight={"80vh"}>
                 {/* SubjectNavbar */}
