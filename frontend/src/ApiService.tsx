@@ -66,6 +66,26 @@ export default class ApiService {
             throw error;
         }
     }
+
+    // post request to create new edition - no endpoint on backend
+    async createNewEdition(email: string, semesterNumber: number, subjectName: string, edition: string) {
+        try {
+            const response = await this.api.post(API.POST_EDITION, { email, semesterNumber, subjectName, edition});
+            console.log(`Utworzono nową edycję - ${response.data}`);
+        } catch (error) {
+            console.error('Błąd tworzenia nowej edycji', error);
+        }
+    }
+
+    // // post request to create new course
+    // async createNewCourse(email: string, semesterNumber: number, subjectName: string, edition: string) {
+    //     try {
+    //         const response = await this.api.post(API.POST_EDITION, { email, semesterNumber, subjectName, edition});
+    //         console.log(`Utworzono nowy kurs - ${response.data}`);
+    //     } catch (error) {
+    //         console.error('Błąd tworzenia nowego kursu', error);
+    //     }
+    // }
     
     // async getUserCourses() {
     //     function romanToNumber(roman: string): number { //to jest jakiś nieśmieszny żart, że muszę to tutaj robić

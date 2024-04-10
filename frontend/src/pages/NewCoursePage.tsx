@@ -21,6 +21,18 @@ export default function NewCoursePage() {
 
     const handleCreate = async () => {
         console.log(`Subject: ${subject}, Edition: ${edition}`);
+        const response = await fetch('http://localhost:8000/user/courses/create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({subject, edition }),
+        });
+        if (response.ok) {
+            console.log('Przedmiot dodany pomyślnie');
+        } else {
+            console.error('Błąd dodawania przedmiotu');
+        }
     }
 
     return (
