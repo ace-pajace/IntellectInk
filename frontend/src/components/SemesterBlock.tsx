@@ -2,9 +2,8 @@ import React from 'react';
 import { Card, HStack, Text } from '@chakra-ui/react';
 import { Box, Collapse } from '@chakra-ui/react';
 import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
-// import { useState } from 'react';
-import SubjectBlock from './SubjectBlock';
-import { useNavigate } from 'react-router-dom';
+import CoursesBlock from './CoursesBlock';
+// import { useNavigate } from 'react-router-dom';
 
 interface SemesterBlockProps {  
     semesterNumber: number;
@@ -13,15 +12,12 @@ interface SemesterBlockProps {
 }
 
 const SemesterBlock: React.FC <SemesterBlockProps> = ({ semesterNumber, isActive, onClick}) => {
-    // const [isOpen, setIsOpen] = useState(false);
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const handleClick = () => {
-        // setIsOpen(!isOpen);
-        // if (isOpen) navigate('/subjects');
-        // else navigate(`/subjects/semesters/${semesterNumber}`);
+
         onClick();
-        if (isActive) navigate('/subjects');
-        else navigate(`/subjects/semesters/${semesterNumber}`);
+        // if (isActive) navigate('/subjects');
+        // else navigate(`/subjects/semesters/${semesterNumber}`);
     }
     return (
         <Box minW={"70vw"}>
@@ -32,7 +28,7 @@ const SemesterBlock: React.FC <SemesterBlockProps> = ({ semesterNumber, isActive
                 </HStack>
             </Card>
             <Collapse in={isActive}>
-                <SubjectBlock semesterNumber={semesterNumber}/>
+                <CoursesBlock semesterNumber={semesterNumber}/>
             </Collapse>
         </Box>
     );

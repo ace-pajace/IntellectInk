@@ -1,82 +1,51 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import HomePage from './pages/HomePage';
 import NoMatchPage from './pages/NoMatchPage';
 import SignInPage from './pages/SignInPage';
 import SignUpPage from './pages/SignUpPage';
-import SubjectPage from "./pages/SubjectPage";
-import ShareSubjectPage from "./pages/ShareSubjectPage";
+import CoursePage from "./pages/CoursePage";
+import ShareCoursePage from "./pages/ShareCoursePage";
 import TestPage from "./pages/TestPage";
-import NewSubjectPage from "./pages/NewSubjectPage";
+import NewCoursePage from "./pages/NewCoursePage";
+import { useEffect, useState } from "react";
+import { isLoggedIn } from "./auth";
 
-const router = createBrowserRouter([
-    {
-        path: "/test",
-        element: <TestPage />,
-    },
-    {
-        path: "/subjects",
-        element: <HomePage />,
-        children: [
-            {
-                path: "semesters/:semester_number",
-                element: <HomePage />,
-                children: [
-                    {
-                        path: ":subject_name",
-                        element: <HomePage />,
-                        children: [
-                            {
-                                path: ":subject_year",
-                                element: <HomePage />,
-                            },
-                        ],
-                    },
-                ],
-            },
-        ],
-    },
-    {
-        path: "subjects/create",
-        element: <NewSubjectPage />,
-    },
-    {
-        path: "/sign-in",
-        element: <SignInPage />,
-    },
-    {
-        path: "/sign-up",
-        element: <SignUpPage />,
-    },
-    {
-        path: "/subjectEditionView",
-        element: <SubjectPage />,
-    },
-    {
-        path: "/subjectEditionView/:subject_id/share",
-        element: <ShareSubjectPage />,
-    },
-    {
-        path: "*",
-        element: <NoMatchPage />,
-    },
-]);
+const RedirectTo: React.FC = () => {
+    const [redirectTo, setRedirectTo] = useState<string | null>(null);
+  
+    useEffect(() => {
+      if (isLoggedIn()) {
+        setRedirectTo('/courses');
+      } else {
+        setRedirectTo('/sign-in');
+      }
+    }, []);
+  
+    return redirectTo ? <Navigate to={redirectTo} /> : null;
+  };
 
 const App: React.FC = () => {
     return (
-        <RouterProvider router={router} />
+        <Router>
+            <Routes>
+                <Route path="/" element={<RedirectTo />} />
+                <Route path="/test" element={<TestPage />} />
+                <Route path="/courses" element={<HomePage />}>
+                    <Route path="courses/:courses_number" element={<HomePage />}>
+                        <Route path=":course_name" element={<HomePage />}>
+                            <Route path=":course_year" element={<HomePage />} />
+                        </Route>
+                    </Route>
+                </Route>
+                <Route path="courses/create" element={<NewCoursePage />} />
+                <Route path="/courseEditionView" element={<CoursePage />} />
+                <Route path="/courseEditionView/:course_id/share" element={<ShareCoursePage />} />
+                <Route path="/sign-in" element={<SignInPage />} />
+                <Route path="/sign-up" element={<SignUpPage />} />
+                <Route path="*" element={<NoMatchPage />} />
+            </Routes>
+        </Router>
     );
 }
 
 export default App;
-
-// Alternative with fixed layout on top of all pages
-// <Router>
-//   <Routes>
-//     <Route path="/" element={<Layout />}>
-//       <Route index element={<HomePage />} />
-//       <Route path="sign-in" element={<SignInPage />} />
-//       <Route path="sign-up" element={<SignUpPage />} />
-//       <Route path="*" element={<NoMatchPage />} />
-//     </Route>
-//   </Routes>
-// </Router>

@@ -72,7 +72,7 @@ const initialNodes: Node[] = [
     },
 ];
 
-export default function SubjectPage() {
+export default function CoursePage() {
     const navigate = useNavigate();
     const location = useLocation();
     const currentPath = location.pathname;
@@ -132,7 +132,7 @@ export default function SubjectPage() {
             <HomeNavbar children={links} />
             {/* we need to change this minHeight*/}
             <Flex p={4} direction="column" minHeight={"80vh"}>
-                {/* SubjectNavbar */}
+                {/* CourseNavbar */}
                 <Flex justifyContent="flex-end" alignItems="center">
                     <Box>
                         <Button colorScheme="pink" variant='outline' mr={2} onClick={() => addNode('directory')}>Utwórz folder</Button>
@@ -141,7 +141,7 @@ export default function SubjectPage() {
                         <Button colorScheme="pink">Kopiuj strukturę</Button>
                     </Box>
                 </Flex>
-                {/* SubjectContent */}
+                {/* CourseContent */}
                 <Flex>
                     {/* FileExplorer */}
                     <Box w="30%" mr={4}>

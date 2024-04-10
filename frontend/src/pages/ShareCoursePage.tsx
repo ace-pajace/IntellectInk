@@ -18,7 +18,7 @@ import HomeNavbar from "../components/HomeNavbar";
 
 const Links = ["WDI 22/23", "ASD 22/23", "Matematyka Dyskretna 21/22"];
 
-export default function ShareSubjectPage() {
+export default function ShareCoursePage() {
     const user_email = "";
 
     return (

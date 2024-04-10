@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 
-export default function NewSubjectPage() {
+export default function NewCoursePage() {
 
     const [subject, setSubject] = useState('');
     const [edition, setEdition] = useState('');
