@@ -4,5 +4,5 @@ export const API = {
     POST_REGISTER: "/register/",
     GET_COURSES: "/user/courses/",
     POST_EDITION: "/user/edition/",
-    POST_COURSE: "user/courses/create",
+    POST_COURSE: "/user/courses/create",
 };

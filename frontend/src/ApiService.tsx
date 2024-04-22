@@ -80,7 +80,7 @@ export default class ApiService {
     // // post request to create new course
     // async createNewCourse(email: string, semesterNumber: number, subjectName: string, edition: string) {
     //     try {
-    //         const response = await this.api.post(API.POST_EDITION, { email, semesterNumber, subjectName, edition});
+    //         const response = await this.api.post(API.POST_COURSE, { email, semesterNumber, subjectName, edition});
     //         console.log(`Utworzono nowy kurs - ${response.data}`);
     //     } catch (error) {
     //         console.error('Błąd tworzenia nowego kursu', error);
