@@ -3,7 +3,7 @@ import json
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from ..intellectink.models import CourseAccess, Courses, Users, Directories
-
+from django.middleware.csrf import get_token
 
 def get_available_sems_for_user(request, email):
     """Gets all available semesters for specified user."""
@@ -73,7 +73,7 @@ def delete_course(request):
     if not request.user.is_authenticated:
         return JsonResponse({'error': 'Authentication needed'}, status=401)
     user_email = request.user.email
-    course_todelete = request.data.get('course_id')
+    course_todelete = request.POST.get('course_id')
     access = CourseAccess.objects.filter(user__email=user_email).filter(course__course_id=course_todelete)
     if not access:
         return JsonResponse({'message': "Course not found or no access to course"}, status=403)
@@ -98,7 +98,7 @@ def edit_course(request):
     if not request.user.is_authenticated:
         return JsonResponse({'error': 'Authentication needed'}, status=401)
     user_email = request.user.email
-    course_toupdate = request.data.get('course_id')
+    course_toupdate = request.POST.get('course_id')
     access = CourseAccess.objects.filter(user__email=user_email).filter(course__course_id=course_toupdate)
     if not access:
         return JsonResponse({'message': "Course not found or no access to course"}, status=403)
@@ -123,13 +123,21 @@ def create_course(request):
     JSON response: Course created upon successful creation, with status 200 - OK.
     """
     if not request.user.is_authenticated:
-        return JsonResponse({'error': 'Authentication needed'}, status=401)
-    parent_c_id = request.data.get('course_id')
+        user = Users.objects.get(email="babla@student.agh.edu.pl")
+        # return JsonResponse({'error': 'Authentication needed'}, status=401)
+    else:
+        user = request.user
+    parent_c_id = request.POST.get('course_id')
     if parent_c_id is None:
-        course = Courses(term=request.data.get('term'), name=request.data.get('name'),
-                         edition=request.data.get('edition'))
+        # print(request.GET)
+        course = Courses(term=request.POST.get('term'), name=request.POST.get('name'),
+                         edition=request.POST.get('edition'))
+        print("--------")
         course.save()
-        course_access = CourseAccess(user=request.user, course=course, access_level=3)
+        print(course)
+        print(user)
+        print("Done this")
+        course_access = CourseAccess(user=user, course=course, access_level=3, is_template=request.POST.get('is_template'))
         course_access.save()
         directory = Directories(parent_directory=None, name="root", course=course)
         directory.save()
@@ -138,8 +146,8 @@ def create_course(request):
     else:
         p_course = Courses.objects.get(course_id=parent_c_id)
         name = p_course.name
-        course = Courses(term=request.data.get('term'), name=name, edition=request.data.get('edition'))
-        course_access = CourseAccess(user=request.user, course=course, access_level=3)
+        course = Courses(term=request.POST.get('term'), name=name, edition=request.POST.get('edition'))
+        course_access = CourseAccess(user=user, course=course, access_level=3)
         course_access.save()
         directory = Directories(parent_directory=None, name="root", course=course)
         directory.save()
@@ -162,7 +170,7 @@ def get_course_directories(request):
     if not request.user.is_authenticated:
         return JsonResponse({'error': 'Authentication needed'}, status=401)
     user_email = request.user.email
-    course_id = request.data.get('course_id')
+    course_id = request.POST.get('course_id')
     access = CourseAccess.objects.filter(user__email=user_email).filter(course__course_id=course_id)
     if not access:
         return JsonResponse({'message': "Course not found or no access to course"}, status=403)
@@ -190,7 +198,7 @@ def edit_directory(request):
     if not request.user.is_authenticated:
         return JsonResponse({'error': 'Authentication needed'}, status=401)
     user_email = request.user.email
-    directory_id = request.data.get('directory_id')
+    directory_id = request.POST.get('directory_id')
     course = Directories.objects.get(directory_id=directory_id).course
     access = CourseAccess.objects.filter(user__email=user_email).filter(course=course)
     if not access:
@@ -199,7 +207,7 @@ def edit_directory(request):
         return JsonResponse({'message': 'Access denied'}, status=403)
 
     updating_directory = Directories.objects.get(directory_id=directory_id)
-    updating_directory.name = request.data.get('name')
+    updating_directory.name = request.POST.get('name')
     updating_directory.save()
     return JsonResponse({'message': 'Directory successfully updated'}, status=200)
 
@@ -216,7 +224,7 @@ def delete_directory(request):
     if not request.user.is_authenticated:
         return JsonResponse({'error': 'Authentication needed'}, status=401)
     user_email = request.user.email
-    directory_id = request.data.get('directory_id')
+    directory_id = request.POST.get('directory_id')
     closed_dir = Directories.objects.get(directory_id=directory_id)
     access = CourseAccess.objects.filter(user__email=user_email).filter(course=closed_dir.course)
     if not access:
@@ -239,15 +247,15 @@ def create_directory(request):
     if not request.user.is_authenticated:
         return JsonResponse({'error': 'Authentication needed'}, status=401)
     user_email = request.user.email
-    course = Directories.objects.get(directory_id=request.data.get('directory_id')).course
+    course = Directories.objects.get(directory_id=request.POST.get('directory_id')).course
     access = CourseAccess.objects.filter(user__email=user_email).filter(course=course)
     if not access:
         return JsonResponse({'message': "Course not found or no access to course"}, status=403)
     if access[0].access_level < 2:
         return JsonResponse({'message': 'Access denied'}, status=403)
 
-    parent_directory = Directories.objects.get(directory_id=request.data.get('directory_id'))
-    directory = Directories(parent_directory=parent_directory, course=course, name=request.data.get('name'))
+    parent_directory = Directories.objects.get(directory_id=request.POST.get('directory_id'))
+    directory = Directories(parent_directory=parent_directory, course=course, name=request.POST.get('name'))
     directory.save()
 
 
@@ -264,7 +272,7 @@ def copy_course(request):
     #     return JsonResponse({'error': 'Authentication needed'}, status=401)
     # user_email = request.user.email
     mapping = dict()
-    user_email = requests.GET.get('email', request.user.email)
+    user_email = requests.POST.get('email', request.user.email)
     user = User.objects.get(email=user_email)
     course = Courses.objects.get(name=request.POST.get('name'), term=request.POST.get('term'), edition=request.POST.get('edition'))
     access = CourseAccess.objects.filter(user__email=user_email).filter(course=course)
@@ -305,4 +313,13 @@ def copy_course(request):
                 del prev_directories_data[i]
                 break
 
-    return JSONResponse({'message': "Successfully copied. Have fun"}, status=200)
+    return JsonResponse({'message': "Successfully copied. Have fun"}, status=200)
+
+def get_csrf_token(request):
+    csrf_token = get_token(request)
+    return JsonResponse({'message': csrf_token}, status=200)
+
+
+def get_users_mail(request):
+    users = Users.objects.all()
+    return JsonResponse({'message': [u.email for u in users]}, status=200)
