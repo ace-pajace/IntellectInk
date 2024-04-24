@@ -13,7 +13,7 @@ import MarkdownPage from "./pages/MarkdownPage.tsx";
 
 const RedirectTo: React.FC = () => {
     const [redirectTo, setRedirectTo] = useState<string | null>(null);
-  
+
     useEffect(() => {
       if (isLoggedIn()) {
         setRedirectTo('/courses');
@@ -21,7 +21,7 @@ const RedirectTo: React.FC = () => {
         setRedirectTo('/sign-in');
       }
     }, []);
-  
+
     return redirectTo ? <Navigate to={redirectTo} /> : null;
   };
 
