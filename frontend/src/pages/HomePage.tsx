@@ -46,7 +46,7 @@ const HomePage: React.FC = () => {
     };
 
     const handleCreateNewSubject = () => {  
-        navigate('/subjects/create');
+        navigate('/courses/create');
     }
 
     return (

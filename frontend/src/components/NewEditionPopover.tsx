@@ -18,6 +18,13 @@ import {
   const NewEditionPopover = () => {
     const { onOpen, onClose, isOpen } = useDisclosure()
     const firstFieldRef = React.useRef(null)
+
+    const createNewEdition = () => {
+        console.log("New edition created")
+        // POST request to create new edition
+        createNewEdition();
+        onClose();
+    }
   
     return (
       <>
@@ -45,10 +52,10 @@ import {
                     </FormControl>
                     <ButtonGroup display='flex' justifyContent='flex-end'>
                     <Button variant='outline' colorScheme='pink' onClick={onClose}>
-                        Cancel
+                        Zamknij
                     </Button>
-                    <Button colorScheme='pink'>
-                        Save
+                    <Button colorScheme='pink' onClick={createNewEdition}>
+                        Utwórz
                     </Button>
                     </ButtonGroup>
                 </Stack>

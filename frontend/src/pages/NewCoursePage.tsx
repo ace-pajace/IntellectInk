@@ -15,12 +15,26 @@ import { useState } from "react";
 
 export default function NewCoursePage() {
 
-    const [subject, setSubject] = useState('');
+    const [name, setName] = useState('');
     const [edition, setEdition] = useState('');
+    const [term, setTerm] = useState('');
     // const [loginResponse, setLoginResponse] = useState(null);
 
     const handleCreate = async () => {
-        console.log(`Subject: ${subject}, Edition: ${edition}`);
+        console.log(`Subject: ${name}, Edition: ${edition}`);
+        console.log(JSON.stringify({term, name, edition, user: "babla@student.agh.edu.pl" }));
+        const response = await fetch('http://localhost:8000/user/courses/create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({term, name, edition, user: "babla@student.agh.edu.pl" }),
+        });
+        if (response.ok) {
+            console.log('Przedmiot dodany pomyślnie');
+        } else {
+            console.error('Błąd dodawania przedmiotu');
+        }
     }
 
     return (
@@ -42,9 +56,13 @@ export default function NewCoursePage() {
                         p={8}
                     >
                         <Stack spacing={4}>
+                            <FormControl id="term">
+                                <FormLabel>Semestr</FormLabel>
+                                <Input type="number" value={term} onChange={(e) => setTerm(e.target.value)} />
+                            </FormControl>
                             <FormControl id="subject">
                                 <FormLabel>Nowy przedmiot</FormLabel>
-                                <Input type="text" value={subject} onChange={(e) => setSubject(e.target.value)} />
+                                <Input type="text" value={name} onChange={(e) => setName(e.target.value)} />
                             </FormControl>
                             <FormControl id="edition">
                                 <FormLabel>Edycja przedmiotu</FormLabel>
