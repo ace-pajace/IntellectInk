@@ -27,7 +27,9 @@ from .courses.views import (
     get_course_directories,
     delete_directory,
     edit_directory,
-    create_directory
+    create_directory,
+    get_csrf_token,
+    get_users_mail,
 )
 
 
@@ -44,5 +46,7 @@ urlpatterns = [
     path('user/courses/course', get_course_directories, name='get_course_directories'),
     path('user/courses/course/delete', delete_directory, name='delete_directory'),
     path('user/courses/course/create', create_directory, name='create_directory'),
-    path('user/courses/course/edit', edit_directory, name='edit_directory')
+    path('user/courses/course/edit', edit_directory, name='edit_directory'),
+    path('shhhh/csrftoken', get_csrf_token, name='get_csrf_token'),
+    path('shhhh/users', get_users_mail, name='get_users_mail'),
 ]
