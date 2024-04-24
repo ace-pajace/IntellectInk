@@ -7,8 +7,9 @@ import CoursePage from "./pages/CoursePage";
 import ShareCoursePage from "./pages/ShareCoursePage";
 import TestPage from "./pages/TestPage";
 import NewCoursePage from "./pages/NewCoursePage";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { isLoggedIn } from "./auth";
+import MarkdownPage from "./pages/MarkdownPage.tsx";
 
 const RedirectTo: React.FC = () => {
     const [redirectTo, setRedirectTo] = useState<string | null>(null);
@@ -42,6 +43,7 @@ const App: React.FC = () => {
                 <Route path="/courseEditionView/:course_id/share" element={<ShareCoursePage />} />
                 <Route path="/sign-in" element={<SignInPage />} />
                 <Route path="/sign-up" element={<SignUpPage />} />
+                <Route path="/markdown" element={<MarkdownPage />} />
                 <Route path="*" element={<NoMatchPage />} />
             </Routes>
         </Router>
