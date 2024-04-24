@@ -86,7 +86,7 @@ const NavItem: React.FC<NavItemProps & { onRemove: () => void, onClick: () => vo
     const borderBottomColor = useColorModeValue("white", "white");
     const borderColor = useColorModeValue("gray.200", "gray.700");
     const hoverBg = useColorModeValue("blue.50", "blue.600");
-    const textColor = useColorModeValue(isActive ? "blue.500" : "black", isActive ? "blue.300" : "gray.200");
+    const textColor = isActive ? "blue.500" : "black";
 
     const borderProperties = isActive ? {
         borderBottom: "3px solid",

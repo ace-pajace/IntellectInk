@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useColorMode } from "@chakra-ui/react";
 import MDEditor from "@uiw/react-md-editor";
 import HomeNavbar from "../components/HomeNavbar";
 import "../assets/markdownEditor.css";
@@ -9,7 +8,6 @@ const MarkdownEditor = () => {
   const [fileId, setFileId] = useState("");
   const [fileIdInput, setFileIdInput] = useState("");
   const [theme, setTheme] = useState("light");
-  const { colorMode, toggleColorMode } = useColorMode();
 
   const mockMarkdownContent = `
   # Markdown Title
@@ -92,7 +90,6 @@ const MarkdownEditor = () => {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
     document.body.className = `${newTheme}-theme`;
-    toggleColorMode();
   };
 
   return (
