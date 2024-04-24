@@ -128,7 +128,7 @@ export default function CoursePage() {
 
     return (
         <>
-            <HomeNavbar />
+            <HomeNavbar children={[]}/>
             {/* we need to change this minHeight*/}
             <Flex p={4} direction="column" minHeight={"80vh"}>
                 {/* CourseNavbar */}
