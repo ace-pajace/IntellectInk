@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from ..intellectink.models import CourseAccess, Courses, Users, Directories
+from ..intellectink.models import CourseAccess, Courses, Users, Directories, Files
 
 
 # @login_required
@@ -209,3 +209,38 @@ def create_directory(request):
     parent_directory = Directories.objects.get(directory_id=request.data.get('directory_id'))
     directory = Directories(parent_directory=parent_directory, course=course, name=request.data.get('name'))
     directory.save()
+
+def prepare_file(file):
+    return file
+
+def view_file(request):
+    """
+    View file loaded from disk to be displayed in markdown editor
+    :param request:
+    File that needs to be converted
+    :return:
+    Json response with either: file contents in text form with status 200 - OK
+    Or a message with status 400 - Bad Request
+    """
+    _file = request.file
+    file_content = prepare_file(_file) # do something magical with file
+    return JsonResponse({'filedata': file_content})
+
+def get_file(request):
+    """
+    Get the content of a specified file in course.
+    :param request:
+    Data needs to contain 'course_id, file_id'.
+    :return:
+    JSON response with either: file contents in text form with status 200 - OK
+    Or a message with status 403 - Forbidden
+    """
+    if not request.user.is_authenticated:
+        return JsonResponse({'error': 'Authentication needed'}, status=401)
+    file_id = request.file_id
+    parent_directory = request.parent_directory
+    name = request.name
+    _file = Files.objects.filter(parent_directory=parent_directory).filter(file_id=file_id)
+    file_content = prepare_file(_file)
+    return JsonResponse({'filedata': file_content})
+

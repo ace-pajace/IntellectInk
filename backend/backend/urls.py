@@ -19,6 +19,7 @@ from django.urls import path
 from .authentication.views import register, LoginView
 from .courses.views import get_user_courses, delete_course, edit_course, create_course
 from .courses.views import get_course_directories, delete_directory, edit_directory, create_directory
+from .courses.views import get_file, view_file
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,5 +32,7 @@ urlpatterns = [
     path('user/courses/course', get_course_directories, name='get_course_directories'),
     path('user/courses/course/delete', delete_directory, name='delete_directory'),
     path('user/courses/course/create', create_directory, name='create_directory'),
-    path('user/courses/course/edit', edit_directory, name='edit_directory')
+    path('user/courses/course/edit', edit_directory, name='edit_directory'),
+    path('user/courses/course/file', get_file, name='get_file'),
+    path('user/courses/course/view_file', view_file, name='view_file')
 ]

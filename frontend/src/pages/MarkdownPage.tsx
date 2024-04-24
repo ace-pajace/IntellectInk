@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 import MDEditor from "@uiw/react-md-editor";
 import HomeNavbar from "../components/HomeNavbar";
 import "../assets/markdownEditor.css";
@@ -27,6 +27,18 @@ const MarkdownEditor = () => {
   
   > Blockquote text here.
   `;
+
+  const handleFileUpload = async (e: ChangeEvent<HTMLInputElement>) => {
+    const reader = new FileReader();
+    if (e.target.files && e.target.files.length > 0){
+      const file = e.target.files[0];
+      if (!file) return;
+      reader.onloadend = () => {
+        console.log("File loaded!");
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const saveMarkdown = async () => {
     try {
@@ -117,6 +129,10 @@ const MarkdownEditor = () => {
             onChange={(e) => setFileIdInput(e.target.value)}
           />
           <button onClick={handleLoadById}>Load</button>
+          <input
+            type="file"
+            onChange={handleFileUpload}
+          />
           <button onClick={saveMarkdown}>Save</button>
           <button onClick={toggleTheme}>
             Switch to {theme === "light" ? "Dark" : "Light"} Mode
