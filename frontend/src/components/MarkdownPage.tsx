@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import MDEditor from "@uiw/react-md-editor";
-import HomeNavbar from "../components/HomeNavbar";
 import "../assets/markdownEditor.css";
 
 const MarkdownEditor = () => {
@@ -83,6 +82,7 @@ const MarkdownEditor = () => {
     } else if (id) {
       loadMarkdown(id);
     } else {
+      console.log("No file ID provided.")
     }
   };
 
@@ -94,7 +94,6 @@ const MarkdownEditor = () => {
 
   return (
     <div className={`container ${theme}-theme`}>
-      <HomeNavbar children={['Markdown']} />
       <div className={`container ${theme}-theme`}>
         <div className="editor-container">
           <MDEditor

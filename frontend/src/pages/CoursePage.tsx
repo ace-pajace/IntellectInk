@@ -4,6 +4,7 @@ import { Box, Button, Flex, Text } from '@chakra-ui/react';
 import HomeNavbar from "../components/HomeNavbar";
 import TreeNode from '../components/TreeNode';
 import { useState } from 'react';
+import MarkdownEditor from '../components/MarkdownPage';
 
 
 interface Node {
@@ -77,11 +78,12 @@ export default function CoursePage() {
     const currentPath = location.pathname;
     const [activeNode, setActiveNode] = useState<Node | null>(null);
     const [nodes, setNodes] = useState<Node[]>(initialNodes);
+    const [showEditor, setShowEditor] = useState(false);
 
     // podziel na dwie metody: 
     // - addDirectoryNode (zapisanie do bazy -> dodanie do drzewa) 
     // - addFileNode (upload -> nowy widok -> pobranie pliku -> zapisanie do bazy -> dodanie do drzewa) 
-    const addNode = (type: 'directory' | 'file') => {
+    const addNode = (type: 'directory' | 'file' ) => {
         const findNodeAndParent = (nodes: Node[] | undefined, label: string): [Node | null, Node[] | null] => {
             if (!nodes) {
                 throw new Error('Nodes is undefined');
@@ -136,6 +138,7 @@ export default function CoursePage() {
                     <Box>
                         <Button colorScheme="pink" variant='outline' mr={2} onClick={() => addNode('directory')}>Utwórz folder</Button>
                         <Button colorScheme="pink" variant='outline' mr={2} onClick={() => addNode('file')}>Dodaj plik</Button>
+                        <Button colorScheme="pink" variant='outline' mr={2} onClick={() => setShowEditor(!showEditor)}>Markdown</Button>
                         <Button colorScheme="pink" mr={2} onClick={() => navigate(`${currentPath}/123/share`)}>Udostępnij</Button>
                         <Button colorScheme="pink">Kopiuj strukturę</Button>
                     </Box>
@@ -163,6 +166,7 @@ export default function CoursePage() {
                     <Box w="70%">
                         <Text ms={2} color={"gray.500"}>Widok/Edytor</Text>
                         <Box borderWidth={1} borderColor="gray.300" overflow="auto" p={3} h={"80vh"} rounded={"lg"}>
+                            {showEditor && <MarkdownEditor />}
                             {activeNode && <Box>{activeNode.label}</Box>}
                         </Box>
                     </Box>

@@ -9,7 +9,7 @@ import TestPage from "./pages/TestPage";
 import NewCoursePage from "./pages/NewCoursePage";
 import React, { useEffect, useState } from "react";
 import { isLoggedIn } from "./auth";
-import MarkdownPage from "./pages/MarkdownPage.tsx";
+import MarkdownPage from "./components/MarkdownPage.tsx";
 
 const RedirectTo: React.FC = () => {
     const [redirectTo, setRedirectTo] = useState<string | null>(null);
